@@ -218,7 +218,7 @@ type Self(state, msg) {
     state: state,
     /// The subject that was created by this actor during initialisation.
     subject: Subject(msg),
-    /// The selector that actor is currently using to reveive messages. This
+    /// The selector that actor is currently using to receive messages. This
     /// can be changed by the `Next` value returned by the actor's `loop` callback.
     selector: Selector(Message(msg)),
     /// An opaque value used by the OTP system debug APIs.
