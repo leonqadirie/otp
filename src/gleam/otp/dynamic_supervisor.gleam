@@ -141,6 +141,7 @@ pub opaque type ChildBuilder {
   )
 }
 
+// [TODO]: potentially rework - init needed?
 pub fn start_link(builder: Builder) -> Result(Pid, Dynamic) {
   let flags =
     dict.new()
@@ -256,6 +257,19 @@ fn convert_child(child: ChildBuilder) -> Dict(Atom, Dynamic) {
   |> property("shutdown", shutdown)
 }
 
+// [TODO]: Check, whether a phantom / oblique type combination might fit better
+pub type Message(child) {
+  StartChild(child)
+  TerminateChild(child)
+  CountChildren
+  WhichChildren
+  Shutdown
+}
+
+fn handle_message(message: Message(e)) {
+  todo
+}
+
 fn property(
   dict: Dict(Atom, Dynamic),
   key: String,
@@ -264,8 +278,15 @@ fn property(
   dict.insert(dict, atom.create_from_string(key), dynamic.from(value))
 }
 
-// Callback used by the Erlang supervisor module.
+@external(erlang, "gleam_otp_external", "put_dynamic_supervisor_initial_call")
+fn put_initial_call() -> Dynamic
+
+// [TODO]: Continue
 @internal
-pub fn init(start_data: Dynamic) -> Result(Dynamic, never) {
-  Ok(start_data)
+pub fn init() {
+  put_initial_call()
+  process.trap_exits(True)
+
+  let state = dict.new()
+  |> 
 }

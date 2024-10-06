@@ -2,7 +2,7 @@
 
 -export([
     application_stopped/0, convert_system_message/2,
-    static_supervisor_start_link/1, dynamic_supervisor_start_link/1, put_dynamic_supervisor_initial_call/2
+    static_supervisor_start_link/1, dynamic_supervisor_start_link/1, put_dynamic_supervisor_initial_call/0
 ]).
 
 % TODO: support other system messages
@@ -58,8 +58,5 @@ dynamic_supervisor_start_link(Arg) ->
         {error, E} -> {ok, {init_crashed, E}}
     end.
     
-put_dynamic_supervisor_initial_call(Key, Value) ->
-    case erlang:put(Key, Value) of
-        undefined -> nil;
-        Old_value -> Old_value
-    end.
+put_dynamic_supervisor_initial_call() ->
+    erlang:put('$initial_call', {supervisor, ?MODULE, 1}).
