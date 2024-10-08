@@ -37,7 +37,7 @@ pub opaque type Builder {
     max_restarts: Int,
     max_seconds: Int,
     max_children: MaxChildren,
-    children: List(ChildBuilder),
+    children: Dict(Pid, ChildBuilder),
   )
 }
 
@@ -50,7 +50,7 @@ pub fn new(strategy strategy: Strategy) -> Builder {
     max_restarts: 1,
     max_seconds: 5,
     max_children: Infinity,
-    children: [],
+    children: dict.new(),
   )
 }
 
@@ -286,7 +286,6 @@ fn put_initial_call() -> Dynamic
 pub fn init() {
   put_initial_call()
   process.trap_exits(True)
-
-  let state = dict.new()
-  |> 
+  // let state = dict.new()
+  // |> 
 }
